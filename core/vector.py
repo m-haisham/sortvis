@@ -23,9 +23,9 @@ class Vector2D(tuple):
     def center(position, size):
 
         if type(position) == tuple:
-            position = Vector2D.from_tuple(position)
+            position = Vector2D.tuple(position)
         if type(size) == tuple:
-            size = Vector2D.from_tuple(size)
+            size = Vector2D.tuple(size)
 
         return Vector2D(
             position.x + (size.x / 2),
@@ -33,7 +33,7 @@ class Vector2D(tuple):
         )
 
     @staticmethod
-    def from_tuple(t):
+    def tuple(t):
         return Vector2D(t[0], t[1])
 
     @staticmethod

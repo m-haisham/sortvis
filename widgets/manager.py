@@ -14,7 +14,7 @@ class WidgetManager:
             widget.draw(surface)
 
     def update(self):
-        mouse_pos = Vector2D.from_tuple(pygame.mouse.get_pos())
+        mouse_pos = Vector2D.tuple(pygame.mouse.get_pos())
 
         for widget in self.widgets:
 
@@ -31,6 +31,7 @@ class WidgetManager:
 
             # left button
             if event.button == 1:
-                clicked = getattr(widget, 'clicked', None)
-                if callable(clicked):
-                    clicked()
+                if widget.inbound(Vector2D.tuple(event.pos)):
+                    clicked = getattr(widget, 'clicked', None)
+                    if callable(clicked):
+                        clicked()

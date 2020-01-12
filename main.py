@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 
@@ -9,10 +10,14 @@ from visualizer.sorting import InsertionSort, CocktailSort, CycleSort
 from widgets import Text, WidgetManager, Button, Hover
 from widgets.button import WHITE_TEXT_TRANSPARENT_BACKGROUND, BLACK_TEXT_WHITE_BACKGROUND
 
+ytrans = 30
+os.environ['SDL_VIDEO_WINDOW_POS'] = f'0,{ytrans}'
+
 pygame.init()
 infoObject = pygame.display.Info()
-size = width, height = infoObject.current_w, infoObject.current_h - 30
+size = width, height = infoObject.current_w, infoObject.current_h - ytrans
 screen = pygame.display.set_mode(size)
+
 pygame.display.set_caption('Sorting visualizer')
 
 should_sort = Switch(False)

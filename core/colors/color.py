@@ -61,7 +61,6 @@ class Color(tuple):
                 if diff > neg:
                     a = args[i]
                     neg = diff
-                    index = i
 
         pvalue = pos / slice
         nvalue = 1 - pvalue

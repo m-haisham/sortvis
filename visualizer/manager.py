@@ -20,20 +20,22 @@ class BarManager:
         ]
         self.max = self.surface.get_rect().size[1]
 
+        self.bars = []
         self.generate_bars(self.sizes)
 
     def shuffle(self):
         random.shuffle(self.sizes)
 
     def generate_bars(self, sizes):
-        self.bars = []
-
         bar_width = self.surface.get_rect().size[0] / self.size
+
+        self.bars.clear()
         for i, y in zip(range(self.size), sizes):
+
             bar = Rectangle(
                 Vector2D.custom(self.surface, i * bar_width, y - 1, inverty=True),
                 Vector2D(bar_width, y),
-                Color.lerp(y / self.max, colors.RED, colors.GREEN, colors.BLUE, colors.PURPLE)
+                Color.lerp(y / self.max, colors.WHITE, colors.RED, colors.GREEN, colors.BLUE, colors.PURPLE)
             )
 
             self.bars.append(bar)
