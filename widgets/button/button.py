@@ -1,7 +1,7 @@
 import pygame
 
 from core import Vector2D, Color, colors
-from .hover import DIM_LIGHT_ENTER, ORIGINAL_COLOR_EXIT
+from .hover import DIM_LIGHT, ORIGINAL_COLOR
 from ..text import Text
 from ..widget import Widget, Hover
 
@@ -27,7 +27,7 @@ class Button(Widget):
         self._original_color = color
 
         # behaviour
-        self.onhover = Hover(DIM_LIGHT_ENTER, ORIGINAL_COLOR_EXIT)
+        self.onhover = Hover(DIM_LIGHT, ORIGINAL_COLOR)
         self.onclick = onclick
 
         if self.onclick is None:

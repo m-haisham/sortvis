@@ -3,10 +3,11 @@ import time
 
 import pygame
 
-from core import colors, Switch, Vector2D
+from core import colors, Switch, Vector2D, Color
 from visualizer import BarManager
 from visualizer.sorting import InsertionSort, CocktailSort
-from widgets import Text, WidgetManager, Button
+from widgets import Text, WidgetManager, Button, Hover
+from widgets.button import WHITE_TEXT_TRANSPARENT_BACKGROUND, BLACK_TEXT_WHITE_BACKGROUND
 
 pygame.init()
 infoObject = pygame.display.Info()
@@ -22,9 +23,9 @@ bars.shuffle()
 sortg = CocktailSort(bars.sizes).sort_generator()
 # sortg = InsertionSort(bars.sizes).sort_generator()
 
-flip_button = Button(Text(''), size=Vector2D(70, 25), onclick=lambda _: should_sort.flip())
+flip_button = Button(Text('', color=colors.WHITE), size=Vector2D(70, 25), color=Color(0, 0, 0, 0), onclick=lambda _: should_sort.flip())
 flip_button.position = Vector2D(Vector2D.center(screen.get_rect(), screen.get_rect().size).x - (flip_button.size.x / 2), 0)
-
+flip_button.onhover = Hover(BLACK_TEXT_WHITE_BACKGROUND, WHITE_TEXT_TRANSPARENT_BACKGROUND)
 
 def fbflip(val):
     flip_button.text.text = 'RUNNING' if val else 'STOPPED'
@@ -46,10 +47,7 @@ while True:
             if event.key == pygame.K_SPACE:
                 should_sort.flip()
 
-    screen.fill(colors.WHITE)
-
-    # manager.update()
-    # manager.draw(screen)
+    screen.fill(colors.BLACK)
 
     # bars
     bars.draw()
@@ -68,6 +66,6 @@ while True:
 
     manager.update()
     manager.draw(screen)
-    Text(f'{sortg.__qualname__.split(".")[0]}, {len(bars.sizes)} bars, {framerate:.2f} fps').draw(screen)
+    Text(f'{sortg.__qualname__.split(".")[0]}, {len(bars.sizes)} bars, {framerate:.2f} fps', color=colors.WHITE).draw(screen)
 
     pygame.display.flip()
