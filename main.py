@@ -12,14 +12,15 @@ pygame.init()
 infoObject = pygame.display.Info()
 size = width, height = infoObject.current_w, infoObject.current_h - 30
 screen = pygame.display.set_mode(size)
+pygame.display.set_caption('Sorting visualizer')
 
 should_sort = Switch(False)
 bars = BarManager(screen, int(width / 4))
 bars.shuffle()
 
 # change this as necessary to change sorting algorithm
-sort = CocktailSort(bars.sizes).sort_generator()
-# sort = InsertionSort(bars.sizes).sort_generator()
+sortg = CocktailSort(bars.sizes).sort_generator()
+# sortg = InsertionSort(bars.sizes).sort_generator()
 
 flip_button = Button(Text(''), size=Vector2D(70, 25), onclick=lambda _: should_sort.flip())
 flip_button.position = Vector2D(Vector2D.center(screen.get_rect(), screen.get_rect().size).x - (flip_button.size.x / 2), 0)
@@ -55,7 +56,7 @@ while True:
 
     if should_sort.get():
         try:
-            next(sort)
+            next(sortg)
         except StopIteration:
             should_sort.set(False)
 
@@ -67,6 +68,6 @@ while True:
 
     manager.update()
     manager.draw(screen)
-    Text(f'{len(bars.sizes)} bars, {framerate:.2f} fps').draw(screen)
+    Text(f'{sortg.__qualname__.split(".")[0]}, {len(bars.sizes)} bars, {framerate:.2f} fps').draw(screen)
 
     pygame.display.flip()
