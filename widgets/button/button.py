@@ -1,8 +1,9 @@
 import pygame
 
 from core import Vector2D, Color, colors
-from .text import Text
-from .widget import Widget, Hover
+from .hover import DIM_LIGHT_ENTER, ORIGINAL_COLOR_EXIT
+from ..text import Text
+from ..widget import Widget, Hover
 
 
 class Button(Widget):
@@ -15,18 +16,18 @@ class Button(Widget):
         self.size = size
         if self.size is None:
             self.size = Vector2D(100, 35)
-        self.position = position
+        self._position = position
 
         self.text.center(Vector2D.center(self.position, self.size))
 
         # color
+        if color is None:
+            color = colors.TRANSPARENT
         self._mutable_color = color
-        if self._mutable_color is None:
-            self._mutable_color = colors.TRANSPARENT
         self._original_color = color
 
         # behaviour
-        self.onhover = Hover(DIM_LIGHT_ENTER, DIM_LIGHT_EXIT)
+        self.onhover = Hover(DIM_LIGHT_ENTER, ORIGINAL_COLOR_EXIT)
         self.onclick = onclick
 
         if self.onclick is None:
@@ -44,6 +45,15 @@ class Button(Widget):
     def color(self, other):
         self._original_color = other
         self.mutate_color(other)
+
+    @property
+    def position(self):
+        return self._position
+
+    @position.setter
+    def position(self, value):
+        self._position = value
+        self.text.center(Vector2D.center(self.position, self.size))
 
     def mutate_color(self, other):
         self._mutable_color = other
@@ -73,11 +83,3 @@ class Button(Widget):
 
     def clicked(self):
         self.onclick(self)
-
-
-def DIM_LIGHT_ENTER(button: Button):
-    button.mutate_color(button.color * 0.9)
-
-
-def DIM_LIGHT_EXIT(button: Button):
-    button.mutate_color(button.original_color)

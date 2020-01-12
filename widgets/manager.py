@@ -1,6 +1,6 @@
 import pygame
 
-from core import Vector2D, input
+from core import Vector2D
 
 
 class WidgetManager:
@@ -15,17 +15,15 @@ class WidgetManager:
 
     def update(self):
 
-        mouse_input: input.Mouse = input.Mouse.instance
+        events = [i for i in pygame.event.get(pygame.MOUSEBUTTONDOWN)]
         mouse_pos = Vector2D.from_tuple(pygame.mouse.get_pos())
 
         for widget in self.widgets:
 
-            widget.update(mouse_input)
-
             mouse_is_over = widget.is_mouse_over(mouse_pos)
 
             if mouse_is_over:
-                if mouse_input.left.pressed:
+                if len(events) > 0 and any([i for i in events if i.button == 1]):
                     clicked = getattr(widget, 'clicked', None)
                     if callable(clicked):
                         widget.clicked()
