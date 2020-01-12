@@ -20,7 +20,7 @@ class BarManager:
         ]
         self.max = self.surface.get_rect().size[1]
 
-        self.bars = []
+        self.bars = {}
         self.generate_bars(self.sizes)
 
     def shuffle(self):
@@ -29,17 +29,23 @@ class BarManager:
     def generate_bars(self, sizes):
         bar_width = self.surface.get_rect().size[0] / self.size
 
-        self.bars.clear()
-        for i, y in zip(range(self.size), sizes):
+        for i, y in enumerate(sizes):
 
-            bar = Rectangle(
-                Vector2D.custom(self.surface, i * bar_width, y - 1, inverty=True),
-                Vector2D(bar_width, y),
-                Color.lerp(y / self.max, colors.WHITE, colors.RED, colors.GREEN, colors.BLUE, colors.PURPLE)
-            )
+            try:
+                bar = self.bars[y]
+                bar.position = Vector2D.custom(self.surface, i * bar_width, y - 1, inverty=True)
+                continue
+            except KeyError:
+                bar = Rectangle(
+                    Vector2D.custom(self.surface, i * bar_width, y - 1, inverty=True),
+                    Vector2D(bar_width, y),
+                    Color.lerp(y / self.max, colors.WHITE, colors.RED, colors.GREEN, colors.BLUE, colors.PURPLE)
+                )
 
-            self.bars.append(bar)
+                self.bars[y] = bar
+
+
 
     def draw(self):
-        for bar in self.bars:
+        for bar in self.bars.values():
             bar.draw(self.surface)

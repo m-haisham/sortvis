@@ -21,7 +21,7 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Sorting visualizer')
 
 should_sort = Switch(False)
-bars = BarManager(screen, int(width / 4))
+bars = BarManager(screen)#, int(width / 4))
 bars.shuffle()
 
 # change this as necessary to change sorting algorithm
