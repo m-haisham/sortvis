@@ -31,4 +31,4 @@ sort = CocktailSort(bars.sizes).sort_generator()
 # sort = InsertionSort(bars.sizes).sort_generator()
 ```
 
-you can start or stop sort by using button and top-center or by pressing `Space`
+you can start or stop sort by using button on top-center or by pressing `Space`
