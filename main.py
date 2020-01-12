@@ -3,7 +3,7 @@ import time
 
 import pygame
 
-from core import colors
+from core import colors, Switch
 from visualizer import BarManager
 from visualizer.sorting import CocktailSort
 from widgets import Text
@@ -12,7 +12,7 @@ pygame.init()
 size = width, height = 1024, 600
 screen = pygame.display.set_mode(size)
 
-run_sort = False
+should_sort = Switch(False)
 bars = BarManager(screen, int(width / 2))
 bars.shuffle()
 
@@ -29,7 +29,7 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                run_sort = True
+                should_sort.flip()
 
     screen.fill(colors.WHITE)
 
@@ -39,11 +39,11 @@ while True:
     # bars
     bars.draw()
 
-    if run_sort:
+    if should_sort.get():
         try:
             next(sort)
         except StopIteration:
-            run_sort = False
+            should_sort.set(False)
 
     bars.generate_bars(bars.sizes)
 
