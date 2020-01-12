@@ -5,7 +5,7 @@ import pygame
 
 from core import colors, Switch, Vector2D, Color
 from visualizer import BarManager
-from visualizer.sorting import InsertionSort, CocktailSort
+from visualizer.sorting import InsertionSort, CocktailSort, CycleSort
 from widgets import Text, WidgetManager, Button, Hover
 from widgets.button import WHITE_TEXT_TRANSPARENT_BACKGROUND, BLACK_TEXT_WHITE_BACKGROUND
 
@@ -20,8 +20,9 @@ bars = BarManager(screen, int(width / 4))
 bars.shuffle()
 
 # change this as necessary to change sorting algorithm
-sortg = CocktailSort(bars.sizes).sort_generator()
+# sortg = CocktailSort(bars.sizes).sort_generator()
 # sortg = InsertionSort(bars.sizes).sort_generator()
+sortg = CycleSort(bars.sizes).sort_generator()
 
 flip_button = Button(Text('', color=colors.WHITE), size=Vector2D(70, 25), color=Color(0, 0, 0, 0), onclick=lambda _: should_sort.flip())
 flip_button.position = Vector2D(Vector2D.center(screen.get_rect(), screen.get_rect().size).x - (flip_button.size.x / 2), 0)
