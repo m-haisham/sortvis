@@ -26,12 +26,13 @@ class WidgetManager:
             if widget.hover and not mouse_is_over:
                 widget.exit()
 
-    def mouse_down(self, event):
-        for widget in self.widgets:
+    def event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for widget in self.widgets:
 
-            # left button
-            if event.button == 1:
-                if widget.inbound(Vector2D.tuple(event.pos)):
-                    clicked = getattr(widget, 'clicked', None)
-                    if callable(clicked):
-                        clicked()
+                # left button
+                if event.button == 1:
+                    if widget.inbound(Vector2D.tuple(event.pos)):
+                        clicked = getattr(widget, 'clicked', None)
+                        if callable(clicked):
+                            clicked()

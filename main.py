@@ -21,7 +21,7 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Sorting visualizer')
 
 should_sort = Switch(False)
-bars = BarManager(screen)#, int(width / 4))
+bars = BarManager(screen, int(width / 4))
 bars.shuffle()
 
 # change this as necessary to change sorting algorithm
@@ -49,12 +49,11 @@ while True:
         if event.type == pygame.QUIT:
             sys.exit()
 
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            manager.mouse_down(event)
-
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 should_sort.flip()
+
+        manager.event(event)
 
     screen.fill(colors.BLACK)
 
