@@ -5,7 +5,7 @@ import pygame
 
 from core import colors, Switch, Vector2D
 from visualizer import BarManager
-from visualizer.sorting import CocktailSort
+from visualizer.sorting import InsertionSort
 from widgets import Text, WidgetManager, Button
 
 pygame.init()
@@ -14,13 +14,14 @@ size = width, height = infoObject.current_w, infoObject.current_h - 30
 screen = pygame.display.set_mode(size)
 
 should_sort = Switch(False)
-bars = BarManager(screen, int(width / 2))
+bars = BarManager(screen, int(width / 4))
 bars.shuffle()
 
-sort = CocktailSort(bars.sizes).sort_generator()
-# sort = InsertionSort(bars.sizes).sort_generator()
+# change this as necessary to change sorting algorithm
+# sort = CocktailSort(bars.sizes).sort_generator()
+sort = InsertionSort(bars.sizes).sort_generator()
 
-flip_button = Button(Text('RUNNING' if should_sort.get() else 'STOPPED'), size=Vector2D(70, 25), onclick=lambda _: should_sort.flip())
+flip_button = Button(Text(''), size=Vector2D(70, 25), onclick=lambda _: should_sort.flip())
 flip_button.position = Vector2D(Vector2D.center(screen.get_rect(), screen.get_rect().size).x - (flip_button.size.x / 2), 0)
 
 
@@ -28,6 +29,7 @@ def fbflip(val):
     flip_button.text.text = 'RUNNING' if val else 'STOPPED'
 
 
+fbflip(should_sort.get())
 should_sort.onflip = fbflip
 manager = WidgetManager([flip_button])
 

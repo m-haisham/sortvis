@@ -5,7 +5,7 @@ class Algorithm:
 
     def sort_generator(self):
         """
-        yields the new array after each adjustment
+        yields the new array after each sort iteration
         """
         pass
 
