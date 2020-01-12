@@ -33,7 +33,7 @@ class BarManager:
             bar = Rectangle(
                 Vector2D.custom(self.surface, i * bar_width, y - 1, inverty=True),
                 Vector2D(bar_width, y),
-                Color.lerp(colors.GREEN, colors.RED, y / self.max)
+                Color.lerp(y / self.max, colors.RED, colors.GREEN, colors.BLUE, colors.PURPLE)
             )
 
             self.bars.append(bar)

@@ -20,9 +20,9 @@ bars = BarManager(screen, int(width / 4))
 bars.shuffle()
 
 # change this as necessary to change sorting algorithm
-# sortg = CocktailSort(bars.sizes).sort_generator()
+sortg = CocktailSort(bars.sizes).sort_generator()
 # sortg = InsertionSort(bars.sizes).sort_generator()
-sortg = CycleSort(bars.sizes).sort_generator()
+# sortg = CycleSort(bars.sizes).sort_generator()
 
 flip_button = Button(Text('', color=colors.WHITE), size=Vector2D(70, 25), color=Color(0, 0, 0, 0), onclick=lambda _: should_sort.flip())
 flip_button.position = Vector2D(Vector2D.center(screen.get_rect(), screen.get_rect().size).x - (flip_button.size.x / 2), 0)
@@ -43,6 +43,9 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            manager.mouse_down(event)
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:

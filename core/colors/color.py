@@ -31,27 +31,58 @@ class Color(tuple):
 
     def copy(self):
         t = tuple(self)[:]
-        return Color.from_tuple(t)
+        return Color.tuple(t)
 
     @staticmethod
-    def lerp(a, b, value):
-        if value <= 0:
-            return a
-        elif value >= 1:
-            return b
+    def lerp(value, *args):
 
-        pos = value / 1
-        neg = (1 - value) / 1
+        if value <= 0:
+            return args[0]
+        elif value >= 1:
+            return args[-1]
+
+        a = None
+        b = None
+
+        pos = 2
+        neg = -2
+
+        slice = 1 / (len(args) - 1)
+        for i in range(len(args)):
+            v = i * slice
+            diff = value - v
+            if diff == 0:
+                return args[i]
+            elif diff > 0:
+                if diff < pos:
+                    b = args[i]
+                    pos = diff
+            else:
+                if diff > neg:
+                    a = args[i]
+                    neg = diff
+                    index = i
+
+        pvalue = pos / slice
+        nvalue = 1 - pvalue
 
         return Color(
-            a.r * pos + b.r * neg,
-            a.g * pos + b.g * neg,
-            a.b * pos + b.b * neg,
+            a.r * pvalue + b.r * nvalue,
+            a.g * pvalue + b.g * nvalue,
+            a.b * pvalue + b.b * nvalue,
         )
 
     @staticmethod
-    def from_tuple(t):
+    def tuple(t):
+        if len(t) == 3:
+            return Color(t[0], t[1], t[2])
+
         return Color(t[0], t[1], t[2], t[3])
+
+    @staticmethod
+    def hex(s):
+        h = s.string('#')
+        return Color.tuple(tuple(int(h[i:i + 2], 16) for i in (0, 2, 4)))
 
     def __str__(self):
         return f'<Color{vars(self)}>'

@@ -69,7 +69,7 @@ class Button(Widget):
         surface.blit(s, self.position)
         self.text.draw(surface)
 
-    def is_mouse_over(self, mouse_pos: Vector2D):
+    def inbound(self, mouse_pos: Vector2D):
         return self.position.x + self.size.x > mouse_pos.x > self.position.x and \
                self.position.y + self.size.y > mouse_pos.y > self.position.y
 

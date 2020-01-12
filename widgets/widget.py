@@ -5,7 +5,7 @@ class Widget:
     def update(self, mouse_input):
         pass
 
-    def is_mouse_over(self, mouse_pos):
+    def inbound(self, mouse_pos):
         raise Exception('Not implemented')
 
     def enter(self):
