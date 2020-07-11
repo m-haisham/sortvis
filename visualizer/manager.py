@@ -17,7 +17,7 @@ class BarManager:
             1,
             self.surface.get_rect().size[1] * accuracy + 1,
             int((self.surface.get_rect().size[1] * accuracy / size)))
-        ]
+                      ]
         self.max = self.surface.get_rect().size[1]
 
         self.bars = {}
@@ -39,12 +39,10 @@ class BarManager:
                 bar = Rectangle(
                     Vector2D.custom(self.surface, i * bar_width, y - 1, inverty=True),
                     Vector2D(bar_width, y),
-                    Color.lerp(y / self.max, colors.WHITE, colors.RED, colors.GREEN, colors.BLUE, colors.PURPLE)
+                    Color.lerp(y / self.max, colors.RED, colors.GREEN, colors.BLUE)
                 )
 
                 self.bars[y] = bar
-
-
 
     def draw(self):
         for bar in self.bars.values():
