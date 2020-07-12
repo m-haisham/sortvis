@@ -7,7 +7,8 @@ from pygame.locals import DOUBLEBUF
 
 from core import colors, Switch, Vector2D, Color
 from visualizer import BarManager
-from visualizer.sorting import InsertionSort, CocktailSort, CycleSort, QuickSort, AlgorithmController
+from visualizer.sorting import AlgorithmController
+from visualizer.sorting.algorithms import InsertionSort, CocktailSort, CycleSort, QuickSort
 from widgets import Text, WidgetManager, Button, Hover
 from widgets.button import WHITE_TEXT_TRANSPARENT_BACKGROUND, BLACK_TEXT_WHITE_BACKGROUND
 
@@ -23,7 +24,8 @@ pygame.display.set_caption('Sorting visualizer')
 pygame.event.set_allowed([pygame.QUIT, pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN])
 
 should_sort = Switch(False)
-bars = BarManager(screen, int(width / 4))
+# bars = BarManager(screen, int(width / 4))
+bars = BarManager(screen, 200)
 bars.shuffle()
 bars.generate_bars(bars.sizes)
 bars_range = range(len(bars.sizes))
@@ -37,10 +39,17 @@ sorta = QuickSort(bars.sizes[:], 0, len(bars.sizes) - 1)
 ac = AlgorithmController(sorta)
 ac.start()
 
-flip_button = Button(Text('', color=colors.WHITE), size=Vector2D(70, 25), color=Color(0, 0, 0, 0),
-                     onclick=lambda _: should_sort.flip())
-flip_button.position = Vector2D(Vector2D.center(screen.get_rect(), screen.get_rect().size).x - (flip_button.size.x / 2),
-                                0)
+# button to control algorithm flow
+flip_button = Button(
+    Text('', color=colors.WHITE),
+    size=Vector2D(70, 25),
+    color=Color(0, 0, 0, 0),
+    onclick=lambda _: should_sort.flip()
+)
+flip_button.position = Vector2D(
+    Vector2D.center(screen.get_rect(), screen.get_rect().size).x - (flip_button.size.x / 2),
+    0
+)
 flip_button.onhover = Hover(BLACK_TEXT_WHITE_BACKGROUND, WHITE_TEXT_TRANSPARENT_BACKGROUND)
 
 
@@ -68,26 +77,32 @@ while True:
 
     screen.fill(colors.BLACK)
 
+    # update and draw bars
     changed = []
     if should_sort.get():
         try:
-            new_bars = next(ac.iterator)
-
-            changed = [(i, new_bars[i]) for i in bars_range if new_bars[i] != bars.sizes[i]]
-            bars.sizes = new_bars
+            indexes, bars.sizes = next(ac.iterator)
+            changed = [(i, bars.sizes[i]) for i in indexes]
         except StopIteration:
             should_sort.set(False)
 
     bars.update_bars(changed)
     bars.draw(changed)
 
+    # calculate framerate
     t1 = time.time()
     framerate = 1 / (t1 - t0)
     t0 = t1
 
     manager.update()
     manager.draw(screen)
-    Text(f'{sorta.__class__.__name__.split(".")[0]}, {len(bars.sizes)} bars, {framerate:.2f} fps', color=colors.WHITE)\
-        .draw(screen)
+
+    # information display
+    Text(
+        f'{sorta.__class__.__name__.split(".")[0]}, {len(bars.sizes)} bars, '
+        f'Accesses: {ac.accesses}, Writes: {ac.writes}, '
+        f'{framerate:.2f} fps',
+        color=colors.WHITE
+    ).draw(screen)
 
     pygame.display.flip()
