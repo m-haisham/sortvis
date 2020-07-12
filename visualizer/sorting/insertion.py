@@ -5,7 +5,7 @@ class InsertionSort(Algorithm):
     def __init__(self, array):
         super(InsertionSort, self).__init__(array)
 
-    def sort_generator(self):
+    def iterative_sort(self):
         for index, key in enumerate(self.array):
             j = index - 1
 

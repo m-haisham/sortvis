@@ -50,6 +50,12 @@ class BarManager:
                 self.bars[y] = bar
 
     def update_bars(self, sizes):
+        """
+        Update bar position using the new size
+
+        :param sizes: size to update
+        :return: None
+        """
         bar_width = self.surface.get_rect().size[0] / self.size
 
         for i, y in sizes:

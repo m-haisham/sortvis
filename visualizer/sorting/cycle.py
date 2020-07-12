@@ -5,7 +5,7 @@ class CycleSort(Algorithm):
     def __init__(self, array):
         super(CycleSort, self).__init__(array)
 
-    def sort_generator(self):
+    def iterative_sort(self):
         # Loop through the array to find cycles to rotate.
         for cycleStart in range(0, len(self.array) - 1):
             item = self.array[cycleStart]

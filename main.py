@@ -23,8 +23,7 @@ pygame.display.set_caption('Sorting visualizer')
 pygame.event.set_allowed([pygame.QUIT, pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN])
 
 should_sort = Switch(False)
-# bars = BarManager(screen, int(width / 4))
-bars = BarManager(screen, 100)
+bars = BarManager(screen, int(width / 4))
 bars.shuffle()
 bars.generate_bars(bars.sizes)
 bars_range = range(len(bars.sizes))
@@ -50,7 +49,7 @@ def fbflip(val):
 
 
 fbflip(should_sort.get())
-should_sort.onflip = fbflip
+should_sort.on_flip = fbflip
 manager = WidgetManager([flip_button])
 
 framerate = 0

@@ -10,7 +10,7 @@ class QuickSort(Algorithm):
         self.initial_high = high
         self.initial_low = low
 
-    def sort_generator(self):
+    def iterative_sort(self):
         for a in self.quicksort(self.initial_low, self.initial_high):
             yield a
 

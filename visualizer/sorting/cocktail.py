@@ -5,7 +5,7 @@ class CocktailSort(Algorithm):
     def __init__(self, array):
         super(CocktailSort, self).__init__(array)
 
-    def sort_generator(self):
+    def iterative_sort(self):
         n = len(self.array)
         swapped = True
         start = 0
