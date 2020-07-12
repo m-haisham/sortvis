@@ -7,7 +7,8 @@ from pygame.locals import DOUBLEBUF
 
 from core import colors, Switch, Vector2D, Color
 from visualizer import BarManager
-from visualizer.sorting import InsertionSort, CocktailSort, CycleSort, QuickSort, AlgorithmController
+from visualizer.sorting import AlgorithmController
+from visualizer.sorting.algorithms import InsertionSort, CocktailSort, CycleSort, QuickSort
 from widgets import Text, WidgetManager, Button, Hover
 from widgets.button import WHITE_TEXT_TRANSPARENT_BACKGROUND, BLACK_TEXT_WHITE_BACKGROUND
 
@@ -71,10 +72,9 @@ while True:
     changed = []
     if should_sort.get():
         try:
-            new_bars = next(ac.iterator)
+            indexes, bars.sizes = next(ac.iterator)
 
-            changed = [(i, new_bars[i]) for i in bars_range if new_bars[i] != bars.sizes[i]]
-            bars.sizes = new_bars
+            changed = [(i, bars.sizes[i]) for i in indexes]
         except StopIteration:
             should_sort.set(False)
 
