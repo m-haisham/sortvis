@@ -16,7 +16,8 @@ class Algorithm:
         yields the new array after each sort iteration
         """
         pass
-
+       
+    # optional
     def sort(self):
         """
         sort the whole array
@@ -24,11 +25,11 @@ class Algorithm:
         pass
 ```
 
-change `sort` variable to another sort as shown in `main.py`
+change `sorta` variable to another sort as shown in `main.py`
 
 ```python
-sort = CocktailSort(bars.sizes).sort_generator()
-# sort = InsertionSort(bars.sizes).sort_generator()
+sorta = CocktailSort(bars.sizes)
+# sorta = InsertionSort(bars.sizes)
 ```
 
 you can start or stop sort by using button on top-center or by pressing `Space`
