@@ -25,6 +25,8 @@ pygame.event.set_allowed([pygame.QUIT, pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN])
 should_sort = Switch(False)
 bars = BarManager(screen, int(width))
 bars.shuffle()
+bars.generate_bars(bars.sizes)
+bars_range = range(len(bars.sizes))
 
 # change this as necessary to change sorting algorithm
 # sorta = CocktailSort(bars.sizes[:])
@@ -66,16 +68,19 @@ while True:
 
     screen.fill(colors.BLACK)
 
-    # bars
     bars.draw()
 
+    changed = []
     if should_sort.get():
         try:
-            bars.sizes = next(ac.iterator)
+            new_bars = next(ac.iterator)
+
+            changed = [(i, new_bars[i]) for i in bars_range if new_bars[i] != bars.sizes[i]]
+            bars.sizes = new_bars
         except StopIteration:
             should_sort.set(False)
 
-    bars.generate_bars(bars.sizes)
+    bars.update_bars(changed)
 
     t1 = time.time()
     framerate = 1 / (t1 - t0)
