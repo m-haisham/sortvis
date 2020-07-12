@@ -88,7 +88,12 @@ while True:
 
     manager.update()
     manager.draw(screen)
-    Text(f'{sorta.__class__.__name__.split(".")[0]}, {len(bars.sizes)} bars, {framerate:.2f} fps', color=colors.WHITE)\
+    Text(
+        f'{sorta.__class__.__name__.split(".")[0]}, {len(bars.sizes)} bars, '
+        f'Accesses: {ac.accesses}, Writes: {ac.writes}, '
+        f'{framerate:.2f} fps',
+        color=colors.WHITE
+    )\
         .draw(screen)
 
     pygame.display.flip()
