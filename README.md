@@ -31,7 +31,7 @@ with the implementation overriding the method `sort`
 
 #### There is only one guideline
 
-- if you want to swap values, use the buildin `CallbackList.swap(l1, l2)`.
+- if you want to swap values, use the built in `CallbackList.swap(l1, l2)`.
 it would work even if its not used.
 
 Other than that **no modifications** are required

@@ -39,10 +39,17 @@ sorta = QuickSort(bars.sizes[:], 0, len(bars.sizes) - 1)
 ac = AlgorithmController(sorta)
 ac.start()
 
-flip_button = Button(Text('', color=colors.WHITE), size=Vector2D(70, 25), color=Color(0, 0, 0, 0),
-                     onclick=lambda _: should_sort.flip())
-flip_button.position = Vector2D(Vector2D.center(screen.get_rect(), screen.get_rect().size).x - (flip_button.size.x / 2),
-                                0)
+# button to control algorithm flow
+flip_button = Button(
+    Text('', color=colors.WHITE),
+    size=Vector2D(70, 25),
+    color=Color(0, 0, 0, 0),
+    onclick=lambda _: should_sort.flip()
+)
+flip_button.position = Vector2D(
+    Vector2D.center(screen.get_rect(), screen.get_rect().size).x - (flip_button.size.x / 2),
+    0
+)
 flip_button.onhover = Hover(BLACK_TEXT_WHITE_BACKGROUND, WHITE_TEXT_TRANSPARENT_BACKGROUND)
 
 
@@ -70,11 +77,11 @@ while True:
 
     screen.fill(colors.BLACK)
 
+    # update and draw bars
     changed = []
     if should_sort.get():
         try:
             indexes, bars.sizes = next(ac.iterator)
-
             changed = [(i, bars.sizes[i]) for i in indexes]
         except StopIteration:
             should_sort.set(False)
@@ -82,18 +89,20 @@ while True:
     bars.update_bars(changed)
     bars.draw(changed)
 
+    # calculate framerate
     t1 = time.time()
     framerate = 1 / (t1 - t0)
     t0 = t1
 
     manager.update()
     manager.draw(screen)
+
+    # information display
     Text(
         f'{sorta.__class__.__name__.split(".")[0]}, {len(bars.sizes)} bars, '
         f'Accesses: {ac.accesses}, Writes: {ac.writes}, '
         f'{framerate:.2f} fps',
         color=colors.WHITE
-    )\
-        .draw(screen)
+    ).draw(screen)
 
     pygame.display.flip()

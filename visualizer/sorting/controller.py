@@ -17,6 +17,8 @@ class AlgorithmController(Thread):
         self.queue = Queue(maxsize=maxsize)
 
         self.algorithm = algorithm
+
+        # bind callback
         self.algorithm.array.callback = self.put
 
         # shows whether the algorithm has run to completion

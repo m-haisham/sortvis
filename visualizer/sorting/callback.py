@@ -29,6 +29,8 @@ class CallbackList(MutableSequence):
     def swap(self, i1: int, i2: int):
         """
         swap value of index one with other
+
+        it is recommended to use this for swaps
         """
         self._inner_list[i1], self._inner_list[i2] = self._inner_list[i2], self._inner_list[i1]
         self.callback([i1, i2], [i1, i2])
