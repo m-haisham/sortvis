@@ -1,5 +1,7 @@
 import random
 
+from typing import Dict
+
 from core import Vector2D, colors, Color
 from shapes import Rectangle
 
@@ -20,7 +22,7 @@ class BarManager:
         ]
         self.max = self.surface.get_rect().size[1]
 
-        self.bars = {}
+        self.bars: Dict[str, Rectangle] = {}
         self.generate_bars(self.sizes)
 
     def shuffle(self):
@@ -51,6 +53,18 @@ class BarManager:
             bar = self.bars[y]
             bar.position = Vector2D.custom(self.surface, i * bar_width, y - 1, inverty=True)
 
-    def draw(self):
+    def draw(self, changed=None):
+
+        if changed is None:
+            changed_sizes = []
+        else:
+            changed_sizes = [size for i, size in changed]
+
         for bar in self.bars.values():
+
+            if bar.size.y in changed_sizes:
+                bar.color = colors.WHITE
+            else:
+                bar.color = bar.size_color[:]
+
             bar.draw(self.surface)

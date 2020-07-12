@@ -9,6 +9,7 @@ class Rectangle(Shape):
         self._position = position
         self.size = size
         self.color = color
+        self.size_color = color[:]
 
         self.rect = pygame.Rect(
             self._position.x, self._position.y,

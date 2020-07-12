@@ -23,7 +23,7 @@ pygame.display.set_caption('Sorting visualizer')
 pygame.event.set_allowed([pygame.QUIT, pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN])
 
 should_sort = Switch(False)
-bars = BarManager(screen, int(width))
+bars = BarManager(screen, int(width / 4))
 bars.shuffle()
 bars.generate_bars(bars.sizes)
 bars_range = range(len(bars.sizes))
@@ -68,8 +68,6 @@ while True:
 
     screen.fill(colors.BLACK)
 
-    bars.draw()
-
     changed = []
     if should_sort.get():
         try:
@@ -81,6 +79,7 @@ while True:
             should_sort.set(False)
 
     bars.update_bars(changed)
+    bars.draw(changed)
 
     t1 = time.time()
     framerate = 1 / (t1 - t0)
@@ -88,7 +87,7 @@ while True:
 
     manager.update()
     manager.draw(screen)
-    Text(f'{sorta.__class__.__name__.split(".")[0]}, {len(bars.sizes)} bars, {framerate:.2f} fps', color=colors.WHITE).draw(
-        screen)
+    Text(f'{sorta.__class__.__name__.split(".")[0]}, {len(bars.sizes)} bars, {framerate:.2f} fps', color=colors.WHITE)\
+        .draw(screen)
 
     pygame.display.flip()
