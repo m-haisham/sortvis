@@ -3,14 +3,14 @@ class Algorithm:
     def __init__(self, array: list):
         self.array = array
 
-    def sort_generator(self):
+    def iterative_sort(self):
         """
-        yields the new array after each sort iteration
+        yield changed array after change
         """
-        pass
+        raise NotImplementedError
 
     def sort(self):
         """
         sort the whole array
         """
-        pass
+        raise NotImplementedError

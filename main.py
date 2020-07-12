@@ -3,7 +3,7 @@ import sys
 import time
 
 import pygame
-from pygame.locals import FULLSCREEN, DOUBLEBUF
+from pygame.locals import DOUBLEBUF
 
 from core import colors, Switch, Vector2D, Color
 from visualizer import BarManager
@@ -23,8 +23,10 @@ pygame.display.set_caption('Sorting visualizer')
 pygame.event.set_allowed([pygame.QUIT, pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN])
 
 should_sort = Switch(False)
-bars = BarManager(screen, int(width))
+bars = BarManager(screen, int(width / 4))
 bars.shuffle()
+bars.generate_bars(bars.sizes)
+bars_range = range(len(bars.sizes))
 
 # change this as necessary to change sorting algorithm
 # sorta = CocktailSort(bars.sizes[:])
@@ -32,7 +34,7 @@ bars.shuffle()
 # sorta = CycleSort(bars.sizes[:])
 sorta = QuickSort(bars.sizes[:], 0, len(bars.sizes) - 1)
 
-ac = AlgorithmController(sorta, maxsize=200)
+ac = AlgorithmController(sorta)
 ac.start()
 
 flip_button = Button(Text('', color=colors.WHITE), size=Vector2D(70, 25), color=Color(0, 0, 0, 0),
@@ -47,7 +49,7 @@ def fbflip(val):
 
 
 fbflip(should_sort.get())
-should_sort.onflip = fbflip
+should_sort.on_flip = fbflip
 manager = WidgetManager([flip_button])
 
 framerate = 0
@@ -66,16 +68,18 @@ while True:
 
     screen.fill(colors.BLACK)
 
-    # bars
-    bars.draw()
-
+    changed = []
     if should_sort.get():
         try:
-            bars.sizes = next(ac.iterator)
+            new_bars = next(ac.iterator)
+
+            changed = [(i, new_bars[i]) for i in bars_range if new_bars[i] != bars.sizes[i]]
+            bars.sizes = new_bars
         except StopIteration:
             should_sort.set(False)
 
-    bars.generate_bars(bars.sizes)
+    bars.update_bars(changed)
+    bars.draw(changed)
 
     t1 = time.time()
     framerate = 1 / (t1 - t0)
@@ -83,7 +87,7 @@ while True:
 
     manager.update()
     manager.draw(screen)
-    Text(f'{sorta.__class__.__name__.split(".")[0]}, {len(bars.sizes)} bars, {framerate:.2f} fps', color=colors.WHITE).draw(
-        screen)
+    Text(f'{sorta.__class__.__name__.split(".")[0]}, {len(bars.sizes)} bars, {framerate:.2f} fps', color=colors.WHITE)\
+        .draw(screen)
 
     pygame.display.flip()

@@ -5,12 +5,12 @@ class CocktailSort(Algorithm):
     def __init__(self, array):
         super(CocktailSort, self).__init__(array)
 
-    def sort_generator(self):
+    def iterative_sort(self):
         n = len(self.array)
         swapped = True
         start = 0
         end = n - 1
-        while (swapped == True):
+        while swapped:
 
             # reset the swapped flag on entering the loop,
             # because it might be true from a previous
@@ -20,12 +20,14 @@ class CocktailSort(Algorithm):
             # loop from left to right same as the bubble
             # sort
             for i in range(start, end):
-                if (self.array[i] > self.array[i + 1]):
+                if self.array[i] > self.array[i + 1]:
                     self.array[i], self.array[i + 1] = self.array[i + 1], self.array[i]
                     swapped = True
 
+                    yield self.array
+
             # if nothing moved, then array is sorted.
-            if (swapped == False):
+            if not swapped:
                 break
 
             # otherwise, reset the swapped flag so that it
@@ -39,22 +41,23 @@ class CocktailSort(Algorithm):
             # from right to left, doing the same
             # comparison as in the previous stage
             for i in range(end - 1, start - 1, -1):
-                if (self.array[i] > self.array[i + 1]):
+                if self.array[i] > self.array[i + 1]:
                     self.array[i], self.array[i + 1] = self.array[i + 1], self.array[i]
                     swapped = True
+
+                    yield self.array
 
             # increase the starting point, because
             # the last stage would have moved the next
             # smallest number to its rightful spot.
             start = start + 1
-            yield self.array
 
     def sort(self):
         n = len(self.array)
         swapped = True
         start = 0
         end = n - 1
-        while (swapped == True):
+        while swapped:
 
             # reset the swapped flag on entering the loop,
             # because it might be true from a previous
@@ -64,12 +67,12 @@ class CocktailSort(Algorithm):
             # loop from left to right same as the bubble
             # sort
             for i in range(start, end):
-                if (self.array[i] > self.array[i + 1]):
+                if self.array[i] > self.array[i + 1]:
                     self.array[i], self.array[i + 1] = self.array[i + 1], self.array[i]
                     swapped = True
 
             # if nothing moved, then array is sorted.
-            if (swapped == False):
+            if not swapped:
                 break
 
             # otherwise, reset the swapped flag so that it
@@ -83,7 +86,7 @@ class CocktailSort(Algorithm):
             # from right to left, doing the same
             # comparison as in the previous stage
             for i in range(end - 1, start - 1, -1):
-                if (self.array[i] > self.array[i + 1]):
+                if self.array[i] > self.array[i + 1]:
                     self.array[i], self.array[i + 1] = self.array[i + 1], self.array[i]
                     swapped = True
 
