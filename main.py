@@ -3,7 +3,7 @@ import sys
 import time
 
 import pygame
-from pygame.locals import FULLSCREEN, DOUBLEBUF
+from pygame.locals import DOUBLEBUF
 
 from core import colors, Switch, Vector2D, Color
 from visualizer import BarManager

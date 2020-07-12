@@ -25,6 +25,9 @@ class BarManager:
         self.bars: Dict[str, Rectangle] = {}
         self.generate_bars(self.sizes)
 
+        # color changed tracker
+        self.previous_changed = []
+
     def shuffle(self):
         random.shuffle(self.sizes)
 
@@ -53,18 +56,28 @@ class BarManager:
             bar = self.bars[y]
             bar.position = Vector2D.custom(self.surface, i * bar_width, y - 1, inverty=True)
 
-    def draw(self, changed=None):
+    def draw(self, updated=None):
+        """
+        draw all the [bars] in class
+        if bar size is in changed color it white
 
-        if changed is None:
-            changed_sizes = []
-        else:
-            changed_sizes = [size for i, size in changed]
-
-        for bar in self.bars.values():
-
-            if bar.size.y in changed_sizes:
-                bar.color = colors.WHITE
-            else:
+        :param updated: bars that have changed
+        :return: None
+        """
+        # reset previous color changed
+        while True:
+            try:
+                bar = self.bars[self.previous_changed.pop()]
                 bar.color = bar.size_color[:]
+            except IndexError:
+                break
 
+        # change color of updated bars
+        if updated is not None:
+            for _, size in updated:
+                self.bars[size].color = colors.WHITE
+                self.previous_changed.append(size)
+
+        # draw
+        for bar in self.bars.values():
             bar.draw(self.surface)
