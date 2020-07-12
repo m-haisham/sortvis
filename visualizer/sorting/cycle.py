@@ -6,8 +6,6 @@ class CycleSort(Algorithm):
         super(CycleSort, self).__init__(array)
 
     def sort_generator(self):
-        writes = 0
-
         # Loop through the array to find cycles to rotate.
         for cycleStart in range(0, len(self.array) - 1):
             item = self.array[cycleStart]
@@ -26,8 +24,7 @@ class CycleSort(Algorithm):
             while item == self.array[pos]:
                 pos += 1
             self.array[pos], item = item, self.array[pos]
-            writes += 1
-            yield writes
+            yield self.array
 
             # Rotate the rest of the cycle.
             while pos != cycleStart:
@@ -42,7 +39,6 @@ class CycleSort(Algorithm):
                 while item == self.array[pos]:
                     pos += 1
                 self.array[pos], item = item, self.array[pos]
-                writes += 1
-                yield writes
+                yield self.array
 
-        yield writes
+        yield self.array

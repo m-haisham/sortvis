@@ -11,6 +11,8 @@ class InsertionSort(Algorithm):
 
             while j > -1 and key < self.array[j]:
                 self.array[j + 1] = self.array[j]
+                yield self.array
+
                 j -= 1
             self.array[j + 1] = key
             yield self.array

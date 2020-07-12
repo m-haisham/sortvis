@@ -23,7 +23,8 @@ pygame.display.set_caption('Sorting visualizer')
 pygame.event.set_allowed([pygame.QUIT, pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN])
 
 should_sort = Switch(False)
-bars = BarManager(screen, int(width / 4))
+# bars = BarManager(screen, int(width / 4))
+bars = BarManager(screen, 100)
 bars.shuffle()
 bars.generate_bars(bars.sizes)
 bars_range = range(len(bars.sizes))
@@ -34,7 +35,7 @@ bars_range = range(len(bars.sizes))
 # sorta = CycleSort(bars.sizes[:])
 sorta = QuickSort(bars.sizes[:], 0, len(bars.sizes) - 1)
 
-ac = AlgorithmController(sorta, maxsize=200)
+ac = AlgorithmController(sorta)
 ac.start()
 
 flip_button = Button(Text('', color=colors.WHITE), size=Vector2D(70, 25), color=Color(0, 0, 0, 0),
