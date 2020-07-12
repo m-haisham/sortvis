@@ -22,7 +22,7 @@ sorta = CocktailSort(bars.sizes)
 
 you can start or stop sort by using button on top-center or by pressing `Space`
 
-### Add a new algorithm
+### Add new algorithm
 
 each algorithm should inherit `visualizer.sorting.Algorithm`
 
