@@ -81,7 +81,14 @@ while True:
     changed = []
     if should_sort.get():
         try:
+            # normal speed
             changed, bars.sizes = next(ac.iterator)
+
+            # skip rendering some iterations
+            # which decreases the perceived time
+            # for i in range(20):
+            #     _changed, bars.sizes = next(ac.iterator)
+            #     changed += _changed
         except StopIteration:
             should_sort.set(False)
 
