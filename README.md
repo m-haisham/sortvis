@@ -22,7 +22,7 @@ sorta = CocktailSort(bars.sizes)
 
 you can start or stop sort by using button on top-center or by pressing `Space`
 
-## Want to use a different sorting algorithm
+## Want to use your own algorithm?
 
 ### Use the adapter
 
