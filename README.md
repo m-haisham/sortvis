@@ -50,3 +50,6 @@ class Algorithm:
         """
         raise NotImplementedError
 ```
+## Known issues
+
+- Doesn't support creating subarrays in sort

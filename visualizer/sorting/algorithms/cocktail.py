@@ -2,9 +2,6 @@ from .algorithm import Algorithm
 
 
 class CocktailSort(Algorithm):
-    def __init__(self, array):
-        super(CocktailSort, self).__init__(array)
-
     def sort(self):
         n = len(self.array)
         swapped = True

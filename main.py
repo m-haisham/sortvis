@@ -81,8 +81,7 @@ while True:
     changed = []
     if should_sort.get():
         try:
-            indexes, bars.sizes = next(ac.iterator)
-            changed = [(i, bars.sizes[i]) for i in indexes]
+            changed, bars.sizes = next(ac.iterator)
         except StopIteration:
             should_sort.set(False)
 
@@ -99,8 +98,8 @@ while True:
 
     # information display
     Text(
-        f'{sorta.__class__.__name__.split(".")[0]}, {len(bars.sizes)} bars, '
-        f'Accesses: {ac.accesses}, Writes: {ac.writes}, '
+        f'{sorta.__class__.__name__.split(".")[0]}, {len(bars.sizes)} bars || '
+        f'Accesses: {ac.accesses}, Writes: {ac.writes} || '
         f'{framerate:.2f} fps',
         color=colors.WHITE
     ).draw(screen)

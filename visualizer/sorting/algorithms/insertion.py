@@ -2,9 +2,6 @@ from .algorithm import Algorithm
 
 
 class InsertionSort(Algorithm):
-    def __init__(self, array):
-        super(InsertionSort, self).__init__(array)
-
     def sort(self):
         for index, key in enumerate(self.array):
             j = index - 1

@@ -1,8 +1,8 @@
 from queue import Queue
 from threading import Thread
 
-from visualizer.sorting.algorithms.algorithm import Algorithm
-
+from .algorithms import Algorithm
+from .delta import ListDelta
 
 class AlgorithmController(Thread):
     accesses: int = 0
@@ -25,7 +25,7 @@ class AlgorithmController(Thread):
         self.done = False
 
     def put(self, accessed, written):
-        self.queue.put((accessed, written, self.algorithm.array[:]))
+        self.queue.put(ListDelta(accessed, written, self.algorithm.array[:]))
 
     def run(self):
         print(f'[Thread:{self.getName()}] Started')
@@ -43,10 +43,10 @@ class AlgorithmController(Thread):
         :yield: new array points
         """
         while not self.done or not self.queue.empty():
-            item = self.queue.get()
+            delta: ListDelta = self.queue.get()
 
-            self.accesses += len(item[0])
-            self.writes += len(item[1])
+            self.accesses += len(delta.accesses)
+            self.writes += len(delta.writes)
 
-            yield set(item[0] + item[1]), item[2]
+            yield delta.changes, delta.snapshot
 

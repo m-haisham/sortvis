@@ -45,7 +45,9 @@ class CallbackList(MutableSequence):
     def __getitem__(self, i: int):
         item = self._inner_list.__getitem__(i)
 
-        if not (type(i) == slice):
+        if type(i) == slice:
+            pass
+        else:
             self.callback([i], [])
 
         return item
