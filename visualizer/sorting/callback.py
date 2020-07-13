@@ -10,6 +10,7 @@ class CallbackList(MutableSequence):
     """
 
     # callback(accessed_indexes, written_indexes)
+
     callback: Callable[[List[int], List[int]], None]
 
     def __init__(self, callback: Callable[[List[int], List[int]], None], li: List = None):
@@ -33,6 +34,8 @@ class CallbackList(MutableSequence):
         it is recommended to use this for swaps
         """
         self._inner_list[i1], self._inner_list[i2] = self._inner_list[i2], self._inner_list[i1]
+
+        # bubble up swap info
         self.callback([i1, i2], [i1, i2])
 
     ###############
@@ -40,11 +43,14 @@ class CallbackList(MutableSequence):
     ###############
     def insert(self, index: int, object) -> None:
         self._inner_list.insert(index, object)
+
+        # bubble up what has changed
         self.callback([], list(range(index, self._inner_list.__len__())))
 
     def __getitem__(self, i: int):
         item = self._inner_list.__getitem__(i)
 
+        # bubble up what was accessed
         if type(i) == slice:
             pass
         else:
@@ -55,6 +61,7 @@ class CallbackList(MutableSequence):
     def __setitem__(self, i: int, o: _T) -> None:
         self._inner_list.__setitem__(i, o)
 
+        # bubble up what has changed
         if type(i) == slice:
             self.callback([], list(range(i.start, i.stop, i.step if i.step is not None else 1)))
         else:
@@ -62,6 +69,8 @@ class CallbackList(MutableSequence):
 
     def __delitem__(self, i: int) -> None:
         self._inner_list.__delitem__(i)
+
+        # bubble up what has changed
         self.callback([], list(range(i, self._inner_list.__len__())))
 
     def __len__(self) -> int:

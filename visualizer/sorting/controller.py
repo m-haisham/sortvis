@@ -25,6 +25,9 @@ class AlgorithmController(Thread):
         self.done = False
 
     def put(self, accessed, written):
+        # this function is primarily run by the thread created
+        # as such there will only be one access to algorithm.array
+        # so no thread lock is being used
         self.queue.put(ListDelta(accessed, written, self.algorithm.array[:]))
 
     def run(self):

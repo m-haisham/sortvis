@@ -11,6 +11,7 @@ class BarManager:
         self.surface = surface
 
         if size is None:
+            # one bar for each pixel
             size = surface.get_rect().size[0]
         self.size = size
 
@@ -22,6 +23,7 @@ class BarManager:
         ]
         self.max = self.surface.get_rect().size[1]
 
+        # graphic rectangles
         self.bars: Dict[str, Rectangle] = {}
         self.generate_bars(self.sizes)
 
@@ -29,9 +31,18 @@ class BarManager:
         self.previous_changed = []
 
     def shuffle(self):
+        """
+        inline shuffle sizes
+        """
         random.shuffle(self.sizes)
 
     def generate_bars(self, sizes):
+        """
+        creates the bars if they aren't already, else updates them
+
+        :param sizes: sizes of bars
+        :return:
+        """
         bar_width = self.surface.get_rect().size[0] / self.size
 
         for i, y in enumerate(sizes):

@@ -24,7 +24,6 @@ pygame.display.set_caption('Sorting visualizer')
 pygame.event.set_allowed([pygame.QUIT, pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN])
 
 should_sort = Switch(False)
-# bars = BarManager(screen, int(width / 4))
 bars = BarManager(screen, 200)
 bars.shuffle()
 bars.generate_bars(bars.sizes)
@@ -36,7 +35,8 @@ bars_range = range(len(bars.sizes))
 # sorta = CycleSort(bars.sizes[:])
 sorta = QuickSort(bars.sizes[:], 0, len(bars.sizes) - 1)
 
-ac = AlgorithmController(sorta)
+# limit queue size to be safe
+ac = AlgorithmController(sorta, maxsize=10000)
 ac.start()
 
 # button to control algorithm flow
