@@ -24,9 +24,7 @@ pygame.display.set_caption('Sorting visualizer')
 pygame.event.set_allowed([pygame.QUIT, pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN])
 
 should_sort = Switch(False)
-bars = BarManager(screen, 200)
-bars.shuffle()
-bars.generate_bars(bars.sizes)
+bars = BarManager(screen, 200, shuffle=True)
 bars_range = range(len(bars.sizes))
 
 # change this as necessary to change sorting algorithm
@@ -93,7 +91,7 @@ while True:
             should_sort.set(False)
 
     bars.update_bars(changed)
-    bars.draw(changed)
+    bars.draw()
 
     # calculate framerate
     t1 = time.time()

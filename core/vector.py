@@ -21,15 +21,9 @@ class Vector2D(tuple):
 
     @staticmethod
     def center(position, size):
-
-        if type(position) == tuple:
-            position = Vector2D.tuple(position)
-        if type(size) == tuple:
-            size = Vector2D.tuple(size)
-
         return Vector2D(
-            position.x + (size.x / 2),
-            position.y + (size.y / 2)
+            position[0] + (size[0] / 2),
+            position[1] + (size[1] / 2)
         )
 
     @staticmethod

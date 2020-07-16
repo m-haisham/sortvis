@@ -7,24 +7,37 @@ from shapes import Rectangle
 
 
 class BarManager:
-    def __init__(self, surface, size=None):
+    def __init__(self, surface, length=None, shuffle=False, color=None, highlight=colors.WHITE):
+        """
+        :param surface: pygame surface to draw the bars
+        :param length: amount of bars
+        :param shuffle: whether to shuffle the bars on init
+        :param color: color of bars
+        :param highlight: color of bars to when it has changed
+        """
         self.surface = surface
+        self.color = color
+        self.highligh_color = highlight
 
-        if size is None:
+        if length is None:
             # one bar for each pixel
-            size = surface.get_rect().size[0]
-        self.size = size
+            length = surface.get_rect().size[0]
+        self.size = length
 
         accuracy = 1000
         self.sizes = [i / accuracy for i in range(
             1,
             self.surface.get_rect().size[1] * accuracy + 1,
-            int((self.surface.get_rect().size[1] * accuracy / size)))
+            int((self.surface.get_rect().size[1] * accuracy / length)))
         ]
         self.max = self.surface.get_rect().size[1]
 
         # graphic rectangles
         self.bars: Dict[str, Rectangle] = {}
+
+        if shuffle:
+            self.shuffle()
+
         self.generate_bars(self.sizes)
 
         # color changed tracker
@@ -55,7 +68,9 @@ class BarManager:
                 bar = Rectangle(
                     Vector2D.custom(self.surface, i * bar_width, y - 1, inverty=True),
                     Vector2D(bar_width, y),
-                    Color.lerp(y / self.max, colors.RED, colors.GREEN, colors.BLUE)
+
+                    color=Color.lerp(y / self.max, colors.RED, colors.GREEN, colors.BLUE)
+                    if self.color is None else self.color
                 )
 
                 self.bars[y] = bar
@@ -69,18 +84,6 @@ class BarManager:
         """
         bar_width = self.surface.get_rect().size[0] / self.size
 
-        for i, y in sizes:
-            bar = self.bars[y]
-            bar.position = Vector2D.custom(self.surface, i * bar_width, y - 1, inverty=True)
-
-    def draw(self, updated=None):
-        """
-        draw all the [bars] in class
-        if bar size is in changed color it white
-
-        :param updated: bars that have changed
-        :return: None
-        """
         # reset previous color changed
         while True:
             try:
@@ -89,12 +92,22 @@ class BarManager:
             except IndexError:
                 break
 
-        # change color of updated bars
-        if updated is not None:
-            for _, size in updated:
-                self.bars[size].color = colors.WHITE
-                self.previous_changed.append(size)
+        for i, y in sizes:
+            bar = self.bars[y]
+            bar.position = Vector2D.custom(self.surface, i * bar_width, y - 1, inverty=True)
 
+            # highlight the bar
+            bar.color = self.highligh_color
+            self.previous_changed.append(y)
+
+    def draw(self):
+        """
+        draw all the [bars] in class
+        if bar size is in changed color it white
+
+        :param updated: bars that have changed
+        :return: None
+        """
         # draw
         for bar in self.bars.values():
             bar.draw(self.surface)
