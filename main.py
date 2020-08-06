@@ -5,7 +5,7 @@ import time
 import pygame
 from pygame.locals import DOUBLEBUF
 
-from core import colors, Switch, Vector2D, Color
+from core import colors, Switch, Vector2D, Color, FrameRate
 from visualizer import BarManager
 from visualizer.sorting import AlgorithmController
 from visualizer.sorting.algorithms import InsertionSort, CocktailSort, CycleSort, QuickSort
@@ -59,8 +59,7 @@ fbflip(should_sort.get())
 should_sort.on_flip = fbflip
 manager = WidgetManager([flip_button])
 
-framerate = 0
-t0 = time.time()
+fc = FrameRate(limit=60)
 
 while True:
     for event in pygame.event.get():
@@ -93,10 +92,8 @@ while True:
     bars.update_bars(changed)
     bars.draw()
 
-    # calculate framerate
-    t1 = time.time()
-    framerate = 1 / (t1 - t0)
-    t0 = t1
+    # get framerate
+    framerate = fc.update()
 
     manager.update()
     manager.draw(screen)
