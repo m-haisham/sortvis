@@ -105,9 +105,6 @@ class BarManager:
         draw all the [bars] in class
         if bar size is in changed color it white
 
-        :param updated: bars that have changed
         :return: None
         """
-        # draw
-        for bar in self.bars.values():
-            bar.draw(self.surface)
+        self.surface.blits([bar.blit_sequence for bar in self.bars.values()])
