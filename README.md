@@ -2,6 +2,8 @@
 
 ![Imgur](https://i.imgur.com/KCNMfsC.gif)
 
+> Quicksort with 200 randomised starting values
+
 A simple sorting algorithm visualizer written in pygame
 
 **Displays number of list accesses and writes**
