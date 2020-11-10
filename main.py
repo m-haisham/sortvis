@@ -24,7 +24,7 @@ pygame.display.set_caption('Sorting visualizer')
 pygame.event.set_allowed([pygame.QUIT, pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN])
 
 should_sort = Switch(False)
-bars = BarManager(screen, 200, shuffle=True)
+bars = BarManager(screen, 200, shuffle=True, color=colors.WHITE, highlight=colors.RED)
 bars_range = range(len(bars.sizes))
 
 # change this as necessary to change sorting algorithm
