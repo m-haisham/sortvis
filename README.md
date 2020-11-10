@@ -1,5 +1,7 @@
 # Sortvis
 
+![Imgur](https://i.imgur.com/KCNMfsC.gif)
+
 A simple sorting algorithm visualizer written in pygame
 
 **Displays number of list accesses and writes**
