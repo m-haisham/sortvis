@@ -19,13 +19,13 @@ class FrameRate:
         self.t0 = t1
 
         # framerate limiter
-        # if self.limit is not None:
-        #
-        #     # time to react average amount
-        #     wait = self.target_delta - delta
-        #
-        #     # if framerate higher
-        #     if wait > 0:
-        #         time.sleep(wait)
+        if self.limit is not None:
+
+            # time to react average amount
+            wait = self.target_delta - delta
+
+            # if framerate higher
+            if wait > 0:
+                time.sleep(wait)
 
         return 1 / delta
