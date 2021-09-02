@@ -8,7 +8,7 @@ from pygame.locals import DOUBLEBUF
 from core import colors, Switch, Vector2D, Color, FrameRate
 from visualizer import BarManager
 from visualizer.sorting import AlgorithmController
-from visualizer.sorting.algorithms import InsertionSort, CocktailSort, CycleSort, QuickSort
+from visualizer.sorting import algorithms
 from widgets import Text, WidgetManager, Button, Hover
 from widgets.button import WHITE_TEXT_TRANSPARENT_BACKGROUND, BLACK_TEXT_WHITE_BACKGROUND
 
@@ -24,14 +24,15 @@ pygame.display.set_caption('Sorting visualizer')
 pygame.event.set_allowed([pygame.QUIT, pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN])
 
 should_sort = Switch(False)
-bars = BarManager(screen, 200, shuffle=True, color=colors.WHITE, highlight=colors.RED)
+bars = BarManager(screen, 200, shuffle=True, color=colors.WHITE)
 bars_range = range(len(bars.sizes))
 
 # change this as necessary to change sorting algorithm
 # sorta = CocktailSort(bars.sizes[:])
 # sorta = InsertionSort(bars.sizes[:])
 # sorta = CycleSort(bars.sizes[:])
-sorta = QuickSort(bars.sizes[:], 0, len(bars.sizes) - 1)
+# sorta = QuickSort(bars.sizes[:], 0, len(bars.sizes) - 1)
+sorta = algorithms.MergeSort(bars.sizes[:])
 
 # limit queue size to be safe
 ac = AlgorithmController(sorta, maxsize=10000)
@@ -75,11 +76,12 @@ while True:
     screen.fill(colors.BLACK)
 
     # update and draw bars
-    changed = []
+    accessed = []
+    written = []
     if should_sort.get():
         try:
             # normal speed
-            changed, bars.sizes = next(ac.iterator)
+            accessed, written, bars.sizes = next(ac.iterator)
 
             # skip rendering some iterations
             # which decreases the perceived time
@@ -89,7 +91,7 @@ while True:
         except StopIteration:
             should_sort.set(False)
 
-    bars.update_bars(changed)
+    bars.update_bars(accessed, written)
     bars.draw()
 
     # get framerate

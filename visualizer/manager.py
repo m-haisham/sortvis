@@ -7,7 +7,15 @@ from shapes import Rectangle
 
 
 class BarManager:
-    def __init__(self, surface, length=None, shuffle=False, color=None, highlight=colors.WHITE):
+    def __init__(
+            self,
+            surface,
+            length=None,
+            shuffle=False,
+            color=None,
+            highlight_accessed=colors.GREEN,
+            highlight_written=colors.RED,
+    ):
         """
         :param surface: pygame surface to draw the bars
         :param length: amount of bars
@@ -17,7 +25,8 @@ class BarManager:
         """
         self.surface = surface
         self.color = color
-        self.highligh_color = highlight
+        self.highlight_accessed = highlight_accessed
+        self.highlight_written = highlight_written
 
         if length is None:
             # one bar for each pixel
@@ -75,13 +84,8 @@ class BarManager:
 
                 self.bars[y] = bar
 
-    def update_bars(self, sizes):
-        """
-        Update bar position using the new size
-
-        :param sizes: size to update
-        :return: None
-        """
+    def update_bars(self, accesses, writes):
+        """Update bar position using the new size"""
         bar_width = self.surface.get_rect().size[0] / self.size
 
         # reset previous color changed
@@ -92,12 +96,16 @@ class BarManager:
             except IndexError:
                 break
 
+        self._update_change(bar_width, accesses, self.highlight_accessed)
+        self._update_change(bar_width, writes, self.highlight_written)
+
+    def _update_change(self, bar_width, sizes, color):
         for i, y in sizes:
             bar = self.bars[y]
             bar.position = Vector2D.custom(self.surface, i * bar_width, y - 1, inverty=True)
 
             # highlight the bar
-            bar.color = self.highligh_color
+            bar.color = color
             self.previous_changed.append(y)
 
     def draw(self):

@@ -69,8 +69,3 @@ class Algorithm:
         """
         raise NotImplementedError
 ```
-## Known issues
-
-- Doesn't support creating subarrays in sort
-
-    When subarrays are created update callbacks arent called as they should

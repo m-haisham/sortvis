@@ -7,7 +7,8 @@ class ListDelta:
     snapshot: List[float]
 
     highlight = Set[int]
-    changes = List[Tuple[int, float]]
+    access_changes = List[Tuple[int, float]]
+    write_changes = List[Tuple[int, float]]
 
     def __init__(self, accesses, writes, snapshot):
         self.accesses = accesses
@@ -15,4 +16,5 @@ class ListDelta:
         self.snapshot = snapshot
 
         # pre calculated data
-        self.changes = [(i, snapshot[i]) for i in set(self.accesses + self.writes)]
+        self.access_changes = [(i, snapshot[i]) for i in self.accesses]
+        self.write_changes = [(i, snapshot[i]) for i in self.writes]
